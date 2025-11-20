@@ -162,12 +162,22 @@ img {
    transition: var(--transition);
    border-radius: 5px;
    padding: 10px 0;
+   z-index: 1000;
 }
 
-.dropdown:hover .dropdown-menu {
+.dropdown:hover .dropdown-menu,
+.dropdown.active .dropdown-menu {
    opacity: 1;
    visibility: visible;
    transform: translateY(0);
+}
+
+.dropdown-toggle i {
+   transition: var(--transition);
+}
+
+.dropdown.active .dropdown-toggle i {
+   transform: rotate(180deg);
 }
 
 .dropdown-menu li { padding: 0; }
@@ -700,10 +710,24 @@ img {
 .map-container iframe { width: 100%; height: 100%; }
 .faq-section { padding: 60px 0; background: var(--light-bg); }
 .faq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
-.faq-item { background: var(--white); padding: 30px; border-radius: 10px; }
-.faq-item h3 { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; color: var(--secondary-color); }
+.faq-item { background: var(--white); padding: 30px; border-radius: 10px; cursor: pointer; transition: var(--transition); box-shadow: var(--shadow); }
+.faq-item:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+.faq-item h3 { 
+    display: flex; align-items: center; gap: 10px; margin-bottom: 15px; 
+    color: var(--secondary-color); position: relative; padding-right: 30px;
+    user-select: none;
+}
+.faq-item h3::after {
+    content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+    position: absolute; right: 0; transition: var(--transition);
+}
+.faq-item.active h3::after { transform: rotate(180deg); }
 .faq-item i { color: var(--primary-color); }
-.faq-item p { line-height: 1.8; color: #666; }
+.faq-item p { 
+    line-height: 1.8; color: #666; max-height: 0; overflow: hidden; 
+    transition: max-height 0.3s ease, margin-bottom 0.3s ease; margin-bottom: 0;
+}
+.faq-item.active p { max-height: 200px; margin-bottom: 15px; }
 
 /* Cart Page */
 .cart-section { padding: 60px 0; }

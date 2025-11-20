@@ -285,8 +285,9 @@
 
     const urlParams = new URLSearchParams(location.search);
     const preselectCategory = urlParams.get('category');
+    const searchQuery = urlParams.get('search');
 
-    const state = { page: 1, perPage: 9, view: 'grid', sort: 'default', maxPrice: 10000, categories: new Set(), materials: new Set(), collections: new Set() };
+    const state = { page: 1, perPage: 9, view: 'grid', sort: 'default', maxPrice: 10000, categories: new Set(), materials: new Set(), collections: new Set(), search: searchQuery || '' };
 
     // Category checkboxes
     const catBoxes = $$('#categoryFilter input[type="checkbox"]');
@@ -330,6 +331,16 @@
       if (state.categories.size) list = list.filter(p => state.categories.has(p.category));
       if (state.materials.size) list = list.filter(p => state.materials.has(p.material));
       if (state.collections.size) list = list.filter(p => state.collections.has(p.collection));
+      // Search filter
+      if (state.search) {
+        const query = state.search.toLowerCase();
+        list = list.filter(p => 
+          p.name.toLowerCase().includes(query) || 
+          p.category.toLowerCase().includes(query) || 
+          p.material.toLowerCase().includes(query) || 
+          p.collection.toLowerCase().includes(query)
+        );
+      }
       return applySort(list);
     }
 
@@ -361,6 +372,28 @@
       viewBtns.forEach(b=>b.classList.remove('active')); btn.classList.add('active');
       state.view = btn.dataset.view; if (state.view === 'list') grid.classList.add('list-view'); else grid.classList.remove('list-view');
     }));
+
+    // Reset filters button
+    on($('#resetFilters'), 'click', () => {
+      // Reset all checkboxes
+      $$('aside.shop-sidebar input[type="checkbox"]').forEach(cb => cb.checked = false);
+      $('#categoryFilter input[value="all"]').checked = true;
+      // Reset price range
+      if (priceRange) {
+        priceRange.value = 10000;
+        if (maxPrice) maxPrice.textContent = '$10,000';
+      }
+      // Reset sort
+      if (sortSelect) sortSelect.value = 'default';
+      // Reset state
+      state.categories = new Set();
+      state.materials = new Set();
+      state.collections = new Set();
+      state.maxPrice = 10000;
+      state.sort = 'default';
+      state.page = 1;
+      renderPage();
+    });
 
     // initial
     if (priceRange && maxPrice) maxPrice.textContent = `$${(+priceRange.value).toLocaleString()}`;
@@ -404,6 +437,24 @@
       const opts = { size: sizeSelect ? sizeSelect.value : '', metal: (metalBtns.find(b=>b.classList.contains('active'))?.dataset.metal) || '' };
       addToCart(product, qty, opts);
       openCartSidebar();
+    });
+
+    // Add to wishlist button
+    const wishlistBtn = $('#addToWishlistBtn');
+    on(wishlistBtn, 'click', () => {
+      toggleWishlist(product.id);
+      const icon = wishlistBtn.querySelector('i');
+      if (icon) {
+        icon.className = isInWishlist(product.id) ? 'fas fa-heart' : 'far fa-heart';
+      }
+      // Show feedback
+      const originalText = wishlistBtn.innerHTML;
+      if (isInWishlist(product.id)) {
+        wishlistBtn.innerHTML = '<i class="fas fa-check"></i> Added to Wishlist';
+      } else {
+        wishlistBtn.innerHTML = '<i class="far fa-heart"></i> Removed';
+      }
+      setTimeout(() => { wishlistBtn.innerHTML = originalText; }, 2000);
     });
 
     // Tabs
@@ -495,8 +546,24 @@
     const discountRow = $('#discountRow');
     const discountAmount = $('#discountAmount');
 
-    if (clearBtn) on(clearBtn, 'click', () => { saveCart([]); renderCartPage(); updateCartBadge(); });
-    if (updateBtn) on(updateBtn, 'click', () => { renderCartPage(); });
+    if (clearBtn) on(clearBtn, 'click', () => { 
+      if (confirm('Are you sure you want to clear your cart?')) {
+        saveCart([]); 
+        renderCartPage(); 
+        updateCartBadge(); 
+      }
+    });
+    if (updateBtn) on(updateBtn, 'click', () => { 
+      renderCartPage(); 
+      // Show brief confirmation
+      const originalText = updateBtn.innerHTML;
+      updateBtn.innerHTML = '<i class="fas fa-check"></i> Updated';
+      updateBtn.disabled = true;
+      setTimeout(() => { 
+        updateBtn.innerHTML = originalText;
+        updateBtn.disabled = false;
+      }, 1500);
+    });
     if (applyCoupon) on(applyCoupon, 'click', () => {
       const code = (couponInput.value || '').trim().toUpperCase();
       if (!code) { couponMsg.className = 'coupon-message error'; couponMsg.textContent = 'Please enter a coupon code.'; return; }
@@ -540,8 +607,25 @@
       closeWishlistSidebar();
     });
 
-    on($('#searchBtn'), 'click', () => $('#searchOverlay')?.classList.add('active'));
+    // Search overlay
+    on($('#searchBtn'), 'click', () => {
+      const overlay = $('#searchOverlay');
+      overlay?.classList.add('active');
+      $('#searchInput')?.focus();
+    });
     on($('#searchCloseBtn'), 'click', () => $('#searchOverlay')?.classList.remove('active'));
+    
+    // Search input functionality
+    const searchInput = $('#searchInput');
+    on(searchInput, 'keypress', (e) => {
+      if (e.key === 'Enter') {
+        const query = searchInput.value.trim();
+        if (query) {
+          // Redirect to shop page with search
+          window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
+        }
+      }
+    });
 
     on($('#mobileMenuBtn'), 'click', () => $('#navMenu')?.classList.toggle('active'));
   }
@@ -601,10 +685,38 @@
     }
   }
 
-  // Forms
+  // Forms and interactive elements
   function initForms() {
     on($('#newsletterForm'), 'submit', (e) => { e.preventDefault(); alert('Thanks for subscribing!'); e.target.reset(); });
     on($('#contactForm'), 'submit', (e) => { e.preventDefault(); alert('Thanks for contacting us. We\'ll get back to you shortly.'); e.target.reset(); });
+    
+    // FAQ accordion functionality
+    $$('.faq-item h3').forEach(heading => {
+      on(heading, 'click', () => {
+        const item = heading.parentElement;
+        const isActive = item.classList.contains('active');
+        // Close all FAQ items
+        $$('.faq-item').forEach(faq => faq.classList.remove('active'));
+        // Open clicked item if it wasn't active
+        if (!isActive) item.classList.add('active');
+      });
+    });
+    
+    // Category dropdown toggle
+    $$('.dropdown-toggle').forEach(toggle => {
+      on(toggle, 'click', (e) => {
+        e.preventDefault();
+        const dropdown = toggle.parentElement;
+        dropdown.classList.toggle('active');
+      });
+    });
+    
+    // Close dropdowns when clicking outside
+    on(document, 'click', (e) => {
+      if (!e.target.closest('.nav-item.dropdown')) {
+        $$('.nav-item.dropdown').forEach(dd => dd.classList.remove('active'));
+      }
+    });
   }
 
   // Image placeholders
