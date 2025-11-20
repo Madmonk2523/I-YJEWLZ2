@@ -1150,13 +1150,14 @@
     });
   }
 
-  // Page load animation
+  // Page load animation - DISABLED to remove flash effect
   function initPageLoad() {
-    document.body.style.opacity = '0';
-    window.addEventListener('load', () => {
-      document.body.style.transition = 'opacity 0.5s ease';
-      document.body.style.opacity = '1';
-    });
+    // Flash effect removed - page loads normally without fade-in
+    // document.body.style.opacity = '0';
+    // window.addEventListener('load', () => {
+    //   document.body.style.transition = 'opacity 0.5s ease';
+    //   document.body.style.opacity = '1';
+    // });
   }
 
   // Count up animation for numbers
