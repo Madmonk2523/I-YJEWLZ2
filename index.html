@@ -10,30 +10,10 @@
 <body>
     <!-- Header -->
     <header class="header">
-        <div class="top-bar">
-            <div class="container">
-                <div class="top-bar-content">
-                    <div class="contact-info">
-                        <span><i class="fas fa-phone"></i> +1 (555) 123-4567</span>
-                        <span><i class="fas fa-envelope"></i> info@iyjewlz.com</span>
-                    </div>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-pinterest"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
         <nav class="navbar">
             <div class="container">
                 <div class="nav-content">
-                    <div class="logo">
-                        <h1>I&Y JEWLZ</h1>
-                        <p class="tagline">Timeless Elegance</p>
-                    </div>
+                    <div class="logo-small">I&Y JEWLZ</div>
                     
                     <ul class="nav-menu" id="navMenu">
                         <li><a href="index.html" class="active">Home</a></li>
@@ -41,11 +21,12 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle">Categories <i class="fas fa-chevron-down"></i></a>
                             <ul class="dropdown-menu">
+                                <li><a href="shop.html?category=old-collection">Old Collection</a></li>
+                                <li><a href="shop.html?category=bracelets">Bracelets</a></li>
                                 <li><a href="shop.html?category=rings">Rings</a></li>
                                 <li><a href="shop.html?category=necklaces">Necklaces</a></li>
-                                <li><a href="shop.html?category=bracelets">Bracelets</a></li>
+                                <li><a href="shop.html?category=pendants">Pendants</a></li>
                                 <li><a href="shop.html?category=earrings">Earrings</a></li>
-                                <li><a href="shop.html?category=watches">Watches</a></li>
                             </ul>
                         </li>
                         <li><a href="about.html">About</a></li>
@@ -55,10 +36,6 @@
                     <div class="nav-icons">
                         <button class="icon-btn search-btn" id="searchBtn">
                             <i class="fas fa-search"></i>
-                        </button>
-                        <button class="icon-btn wishlist-btn" id="wishlistBtn">
-                            <i class="fas fa-heart"></i>
-                            <span class="badge" id="wishlistCount">0</span>
                         </button>
                         <button class="icon-btn cart-btn" id="cartBtn">
                             <i class="fas fa-shopping-cart"></i>
@@ -100,58 +77,15 @@
         </div>
     </header>
 
-    <!-- Promotional Banner -->
-    <div class="promo-banner">
-        <div class="container">
-            <div class="promo-content">
-                <i class="fas fa-shipping-fast"></i>
-                <span><strong>FREE SHIPPING</strong> on orders over $100 | <strong>30-Day Returns</strong> | <strong>Lifetime Warranty</strong></span>
-                <i class="fas fa-shield-alt"></i>
-            </div>
+    <!-- Hero Section - Landing Page with Logo and Tagline -->
+    <section class="hero hero-landing">
+        <div class="hero-landing-content">
+            <div class="hero-logo-emoji">💎</div>
+            <h1 class="hero-brand-name">I & Y JEWLZ</h1>
+            <p class="hero-brand-tagline">Timeless Elegance</p>
+            <p class="hero-brand-subtext">Lab Grown Diamonds • Premium Jewelry</p>
+            <a href="shop.html" class="btn btn-primary btn-large hero-landing-btn">Explore Collection</a>
         </div>
-    </div>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-slider">
-            <div class="hero-slide active">
-                <div class="hero-image hero-emoji" data-emoji="💎"></div>
-                <div class="hero-content">
-                    <div class="container">
-                        <h2 class="hero-title animate-fade-in">WELCOME TO I&Y JEWLZ</h2>
-                        <p class="hero-subtitle animate-fade-in-delay">WE ARE HAPPY TO ANNOUNCE OUR NEW JEWELRY SHOP</p>
-                        <a href="shop.html" class="btn btn-primary btn-large animate-fade-in-delay-2">Shop Now</a>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-slide">
-                <div class="hero-image hero-emoji" data-emoji="✨"></div>
-                <div class="hero-content">
-                    <div class="container">
-                        <h2 class="hero-title">Exclusive Collections</h2>
-                        <p class="hero-subtitle">Discover Our Latest Diamond Jewelry</p>
-                        <a href="shop.html" class="btn btn-primary btn-large">Explore Collection</a>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-slide">
-                <div class="hero-image hero-emoji" data-emoji="👑"></div>
-                <div class="hero-content">
-                    <div class="container">
-                        <h2 class="hero-title">Luxury & Elegance</h2>
-                        <p class="hero-subtitle">Handcrafted Perfection Since 2025</p>
-                        <a href="shop.html" class="btn btn-primary btn-large">View Products</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <button class="hero-arrow hero-arrow-left" id="heroArrowLeft">
-            <i class="fas fa-chevron-left"></i>
-        </button>
-        <button class="hero-arrow hero-arrow-right" id="heroArrowRight">
-            <i class="fas fa-chevron-right"></i>
-        </button>
-        <div class="hero-dots" id="heroDots"></div>
     </section>
 
     <!-- Features Section -->
@@ -169,8 +103,8 @@
                     <div class="feature-icon">
                         <i class="fas fa-gem"></i>
                     </div>
-                    <h3>FULL VARIETY</h3>
-                    <p>WE CARRY FULL VARIETY AND BEST PRODUCT</p>
+                    <h3>LAB GROWN DIAMONDS</h3>
+                    <p>ETHICALLY SOURCED & CERTIFIED QUALITY</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
@@ -198,22 +132,43 @@
                 <p>Explore our stunning collection of fine jewelry</p>
             </div>
             <div class="categories-grid">
+                <a href="shop.html?category=old-collection" class="category-card">
+                    <div class="category-image category-emoji" data-emoji="✨"></div>
+                    <div class="category-overlay">
+                        <h3>Old Collection</h3>
+                        <p>Vintage Pieces</p>
+                    </div>
+                </a>
+                <a href="shop.html?category=bracelets" class="category-card">
+                    <div class="category-image category-emoji" data-emoji="⌚"></div>
+                    <div class="category-overlay">
+                        <h3>Bracelets</h3>
+                        <p>Premium Collection</p>
+                    </div>
+                </a>
                 <a href="shop.html?category=rings" class="category-card">
                     <div class="category-image category-emoji" data-emoji="💍"></div>
                     <div class="category-overlay">
                         <h3>Rings</h3>
-                        <p>125+ Products</p>
+                        <p>Timeless Designs</p>
                     </div>
                 </a>
                 <a href="shop.html?category=necklaces" class="category-card">
                     <div class="category-image category-emoji" data-emoji="📿"></div>
                     <div class="category-overlay">
                         <h3>Necklaces</h3>
-                        <p>98+ Products</p>
+                        <p>Elegant Styles</p>
                     </div>
                 </a>
-                <a href="shop.html?category=bracelets" class="category-card">
-                    <div class="category-image category-emoji" data-emoji="⌚"></div>
+                <a href="shop.html?category=pendants" class="category-card">
+                    <div class="category-image category-emoji" data-emoji="💎"></div>
+                    <div class="category-overlay">
+                        <h3>Pendants</h3>
+                        <p>Exquisite Pieces</p>
+                    </div>
+                </a>
+                <a href="shop.html?category=earrings" class="category-card">
+                    <div class="category-image category-emoji" data-emoji="👂"></div>
                     <div class="category-overlay">
                         <h3>Bracelets</h3>
                         <p>76+ Products</p>
@@ -223,14 +178,7 @@
                     <div class="category-image category-emoji" data-emoji="👂"></div>
                     <div class="category-overlay">
                         <h3>Earrings</h3>
-                        <p>142+ Products</p>
-                    </div>
-                </a>
-                <a href="shop.html?category=watches" class="category-card">
-                    <div class="category-image category-emoji" data-emoji="⌚"></div>
-                    <div class="category-overlay">
-                        <h3>Watches</h3>
-                        <p>54+ Products</p>
+                        <p>Stunning Selection</p>
                     </div>
                 </a>
             </div>
@@ -354,11 +302,12 @@
                 <div class="footer-col">
                     <h4>Categories</h4>
                     <ul>
+                        <li><a href="shop.html?category=old-collection">Old Collection</a></li>
+                        <li><a href="shop.html?category=bracelets">Bracelets</a></li>
                         <li><a href="shop.html?category=rings">Rings</a></li>
                         <li><a href="shop.html?category=necklaces">Necklaces</a></li>
-                        <li><a href="shop.html?category=bracelets">Bracelets</a></li>
+                        <li><a href="shop.html?category=pendants">Pendants</a></li>
                         <li><a href="shop.html?category=earrings">Earrings</a></li>
-                        <li><a href="shop.html?category=watches">Watches</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -374,44 +323,61 @@
                 <div class="footer-col">
                     <h4>Contact Info</h4>
                     <ul class="contact-info">
-                        <li><i class="fas fa-map-marker-alt"></i> 123 Jewelry Lane, New York, NY 10001</li>
-                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-phone"></i> <strong>929-648-0535</strong></li>
                         <li><i class="fas fa-envelope"></i> info@iyjewlz.com</li>
-                        <li><i class="fas fa-clock"></i> Mon-Sat: 9AM-8PM</li>
+                        <li><i class="fas fa-globe"></i> Online Store Only</li>
                     </ul>
                 </div>
+                <div class="footer-col">
+                    <h4>Have Questions?</h4>
+                    <p>Our team is available to assist you with any inquiries about our lab-grown diamonds and premium jewelry collections.</p>
+                    <a href="contact.html" class="btn btn-small">Contact Us</a>
+                </div>
             </div>
-            <div class=\"trust-badges\">
-                <div class=\"badges-grid\">
-                    <div class=\"badge-item\">
-                        <i class=\"fas fa-lock\"></i>
+            <div class="trust-badges">
+                <div class="badges-grid">
+                    <div class="badge-item">
+                        <i class="fas fa-lock"></i>
                         <span>Secure Checkout</span>
                     </div>
-                    <div class=\"badge-item\">
-                        <i class=\"fas fa-shield-alt\"></i>
-                        <span>Certified Authentic</span>
+                    <div class="badge-item">
+                        <i class="fas fa-star"></i>
+                        <span>Lab Grown Diamonds</span>
                     </div>
-                    <div class=\"badge-item\">
-                        <i class=\"fas fa-undo\"></i>
+                    <div class="badge-item">
+                        <i class="fas fa-undo"></i>
                         <span>30-Day Returns</span>
                     </div>
-                    <div class=\"badge-item\">
-                        <i class=\"fas fa-gem\"></i>
+                    <div class="badge-item">
+                        <i class="fas fa-gem"></i>
                         <span>Premium Quality</span>
                     </div>
-                    <div class=\"badge-item\">
-                        <i class=\"fas fa-shipping-fast\"></i>
+                    <div class="badge-item">
+                        <i class="fas fa-shipping-fast"></i>
                         <span>Free Shipping $100+</span>
                     </div>
                 </div>
             </div>
-            <div class=\"footer-bottom\">
-                <p>&copy; 2025 I&Y JEWLZ. All rights reserved.</p>
-                <div class=\"payment-methods\">
-                    <i class=\"fab fa-cc-visa\"></i>
-                    <i class=\"fab fa-cc-mastercard\"></i>
-                    <i class=\"fab fa-cc-amex\"></i>
-                    <i class=\"fab fa-cc-paypal\"></i>
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    <p>&copy; 2025 I&Y JEWLZ. All rights reserved. | Online Store Only</p>
+                </div>
+                <div class="footer-bottom-right">
+                    <div class="payment-methods">
+                        <span class="payment-label">We Accept:</span>
+                        <i class="fab fa-cc-amex" title="American Express"></i>
+                        <i class="fab fa-cc-visa" title="Visa"></i>
+                        <i class="fab fa-cc-mastercard" title="Mastercard"></i>
+                        <i class="fas fa-mobile-alt" title="Apple Pay"></i>
+                        <i class="fab fa-google" title="Google Pay"></i>
+                    </div>
+                    <div class="social-footer">
+                        <a href="https://facebook.com" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="https://instagram.com" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://google.com" target="_blank" title="Google"><i class="fab fa-google"></i></a>
+                        <a href="https://twitter.com" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="https://wa.me" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -435,21 +401,6 @@
             </div>
             <a href="cart.html" class="btn btn-primary btn-block">View Cart</a>
             <button class="btn btn-outline btn-block">Checkout</button>
-        </div>
-    </div>
-
-    <!-- Wishlist Sidebar -->
-    <div class="wishlist-sidebar" id="wishlistSidebar">
-        <div class="wishlist-header">
-            <h3>My Wishlist</h3>
-            <button class="wishlist-close-btn" id="wishlistCloseBtn">&times;</button>
-        </div>
-        <div class="wishlist-items" id="wishlistItems">
-            <div class="empty-wishlist">
-                <i class="fas fa-heart"></i>
-                <h3>Your wishlist is empty</h3>
-                <p>Save your favorite items here</p>
-            </div>
         </div>
     </div>
 
