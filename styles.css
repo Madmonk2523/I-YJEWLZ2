@@ -323,9 +323,14 @@ img {
 }
 
 @keyframes badgePulse {
-   0% { transform: scale(1); }
-   50% { transform: scale(1.4); background: #ffd700; }
-   100% { transform: scale(1); }
+   0% { transform: scale(1); opacity: 1; }
+   50% { transform: scale(1.15); opacity: 0.9; box-shadow: 0 8px 20px rgba(212, 175, 55, 0.8); }
+   100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes badgeFloat {
+   0%, 100% { transform: translateY(0px); }
+   50% { transform: translateY(-3px); }
 }
 
 /* Add to Cart Notification */
@@ -903,22 +908,25 @@ img {
    position: absolute; 
    top: 15px; 
    left: 15px; 
-   background: linear-gradient(135deg, var(--primary-color), #ffd700);
-   color: var(--secondary-color);
-   padding: 8px 18px; 
-   border-radius: 25px; 
-   font-size: 12px; 
-   font-weight: 700;
-   z-index: 1;
-   box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+   background: linear-gradient(135deg, #d4af37 0%, #ffd700 50%, #d4af37 100%);
+   color: #000;
+   padding: 10px 20px; 
+   border-radius: 50px; 
+   font-size: 13px; 
+   font-weight: 900;
+   z-index: 10;
+   box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3);
    text-transform: uppercase;
-   letter-spacing: 0.5px;
-   animation: badgePulse 2s ease-in-out infinite;
-   transition: var(--transition);
+   letter-spacing: 1px;
+   animation: badgePulse 2.5s ease-in-out infinite, badgeFloat 3s ease-in-out infinite;
+   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+   border: 2px solid rgba(255, 255, 255, 0.5);
+   font-family: 'Arial Black', sans-serif;
 }
 .product-badge:hover {
-   transform: scale(1.1);
-   box-shadow: 0 6px 16px rgba(212, 175, 55, 0.6);
+   transform: scale(1.15) rotateZ(-5deg);
+   box-shadow: 0 10px 30px rgba(212, 175, 55, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+   letter-spacing: 1.5px;
 }
 
 .product-actions { position: absolute; top: 15px; right: 15px; display: flex; flex-direction: column; gap: 10px; opacity: 0; transform: translateX(20px); transition: var(--transition); }
