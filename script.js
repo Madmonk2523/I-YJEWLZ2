@@ -23,7 +23,6 @@
 
   // LocalStorage cart helpers
   const CART_KEY = 'iy_cart';
-  const WISHLIST_KEY = 'iy_wishlist';
 
   const getCart = () => {
     try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; } catch { return []; }
@@ -44,8 +43,6 @@
     const count = cart.reduce((s, i) => s + i.qty, 0);
     return { subtotal, count };
   };
-
-  // Wishlist functionality removed - feature discontinued
 
   // Emoji map for product categories
   const CATEGORY_EMOJI = {
