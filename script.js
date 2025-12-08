@@ -144,12 +144,13 @@
 
   function updateCartUI() { updateCartBadge(); renderCartSidebar(); renderCartPage(); }
 
-  // Product card template
+  // Product card template with enhanced styling
   function productCardHTML(p) {
     const emoji = CATEGORY_EMOJI[p.category] || '💎';
+    const badgeHTML = p.badge ? `<div class="product-badge">${p.badge}</div>` : '';
     return `
       <div class="product-card">
-        ${p.badge ? `<div class="product-badge">${p.badge}</div>` : ''}
+        ${badgeHTML}
         <a href="product-details.html?pid=${p.id}">
           <div class="product-image product-card-emoji">${emoji}</div>
         </a>
