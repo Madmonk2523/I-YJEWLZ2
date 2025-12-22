@@ -653,18 +653,20 @@ body.nav-open { overflow: hidden; }
 
 /* Hero Landing Page - Logo Background Blend */
 .hero-landing {
-   height: 100vh;
+   min-height: 100vh;
+   height: auto;
    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2d2d2d 100%);
    background-image: url('images/logo.jpg');
    background-size: cover;
-   background-position: center;
-   background-attachment: fixed;
+   background-position: center center;
+   background-repeat: no-repeat;
    display: flex;
    align-items: center;
    justify-content: center;
    text-align: center;
    overflow: hidden;
    position: relative;
+   padding: 60px 20px;
 }
 
 .hero-landing-overlay {
@@ -682,6 +684,9 @@ body.nav-open { overflow: hidden; }
    position: relative;
    z-index: 10;
    animation: fadeInUp 1s ease;
+   width: 100%;
+   max-width: 1200px;
+   padding: 20px;
 }
 
 .hero-logo-emoji {
@@ -1713,8 +1718,39 @@ body.nav-open { overflow: hidden; }
    .hero-subtitle { font-size: 17px; line-height: 1.5; }
    .hero-emoji { font-size: 140px; }
 
-   .hero-brand-name { font-size: 56px; }
-   .hero-brand-tagline { font-size: 28px; }
+   .hero-landing {
+      min-height: 100vh;
+      background-attachment: scroll;
+      background-size: contain;
+      background-position: center center;
+      padding: 80px 20px 60px;
+   }
+   .hero-landing-overlay {
+      background: rgba(10, 10, 10, 0.5);
+   }
+   .hero-logo-emoji {
+      font-size: 80px;
+      margin-bottom: 25px;
+   }
+   .hero-brand-name { 
+      font-size: 48px; 
+      letter-spacing: 2px;
+      line-height: 1.2;
+   }
+   .hero-brand-tagline { 
+      font-size: 24px; 
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+   }
+   .hero-brand-subtext {
+      font-size: 16px;
+      margin-bottom: 35px;
+      padding: 0 10px;
+   }
+   .hero-landing-btn {
+      padding: 16px 40px;
+      font-size: 16px;
+   }
    .section-header h2 { font-size: 32px; }
    .section-header p { font-size: 15px; }
    .categories-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
@@ -1749,8 +1785,44 @@ body.nav-open { overflow: hidden; }
    .hero-subtitle { font-size: 15px; padding: 0 15px; }
    .hero-emoji { font-size: 100px; }
 
-   .hero-brand-name { font-size: 42px; margin-bottom: 12px; }
-   .hero-brand-tagline { font-size: 22px; }
+   .hero-landing {
+      min-height: 100vh;
+      background-attachment: scroll;
+      background-size: cover;
+      background-position: center center;
+      padding: 100px 15px 50px;
+   }
+   .hero-landing-overlay {
+      background: rgba(10, 10, 10, 0.4);
+   }
+   .hero-landing-content {
+      padding: 10px;
+   }
+   .hero-logo-emoji {
+      font-size: 60px;
+      margin-bottom: 20px;
+   }
+   .hero-brand-name { 
+      font-size: 36px; 
+      margin-bottom: 10px; 
+      letter-spacing: 1px;
+      line-height: 1.1;
+   }
+   .hero-brand-tagline { 
+      font-size: 20px; 
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+   }
+   .hero-brand-subtext {
+      font-size: 14px;
+      margin-bottom: 30px;
+      line-height: 1.5;
+   }
+   .hero-landing-btn {
+      padding: 14px 35px;
+      font-size: 15px;
+      border-radius: 40px;
+   }
 
    .section-header h2 { font-size: 28px; }
    .section-header p { font-size: 14px; }
