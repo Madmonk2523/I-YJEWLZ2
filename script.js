@@ -824,23 +824,56 @@
       searchInput.focus();
     });
     
-    // Search input events
+    // Search input events (debounced + keyboard navigation)
+    let searchDebounceTimer = null;
+    let activeSuggestionIndex = -1;
+    function updateActiveSuggestion(listEl, idx) {
+      const items = $$('.suggestion-item', listEl);
+      items.forEach((el, i) => el.classList.toggle('active', i === idx));
+    }
     on(searchInput, 'input', () => {
       const query = searchInput.value.trim();
-      
-      // Toggle clear button
       searchClearBtn.style.display = query ? 'flex' : 'none';
-      
-      if (query.length >= 2) {
-        const suggestions = getSearchSuggestions(query);
-        renderSuggestions(suggestions);
-        searchHistory.style.display = 'none';
-      } else if (query.length === 0) {
-        searchSuggestions.style.display = 'none';
-        renderSearchHistory();
-      } else {
-        searchSuggestions.style.display = 'none';
-        searchHistory.style.display = 'none';
+      if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
+      searchDebounceTimer = setTimeout(() => {
+        if (query.length >= 2) {
+          const suggestions = getSearchSuggestions(query);
+          if (!suggestions.length) {
+            const list = searchSuggestions.querySelector('.suggestions-list');
+            list.innerHTML = `<div class="no-results"><i class="fas fa-search"></i><div>No matches found</div></div>`;
+            searchSuggestions.style.display = 'block';
+            searchHistory.style.display = 'none';
+          } else {
+            renderSuggestions(suggestions);
+            searchHistory.style.display = 'none';
+          }
+          activeSuggestionIndex = -1;
+        } else if (query.length === 0) {
+          searchSuggestions.style.display = 'none';
+          renderSearchHistory();
+        } else {
+          searchSuggestions.style.display = 'none';
+          searchHistory.style.display = 'none';
+        }
+      }, 150);
+    });
+    on(searchInput, 'keydown', (e) => {
+      const list = searchSuggestions.querySelector('.suggestions-list');
+      const items = $$('.suggestion-item', list);
+      if (!items.length || searchSuggestions.style.display === 'none') return;
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        activeSuggestionIndex = Math.min(items.length - 1, activeSuggestionIndex + 1);
+        updateActiveSuggestion(list, activeSuggestionIndex);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        activeSuggestionIndex = Math.max(0, activeSuggestionIndex - 1);
+        updateActiveSuggestion(list, activeSuggestionIndex);
+      } else if (e.key === 'Enter' && activeSuggestionIndex >= 0) {
+        e.preventDefault();
+        const chosen = items[activeSuggestionIndex];
+        const q = chosen?.dataset.query;
+        if (q) performSearch(q);
       }
     });
     
@@ -856,7 +889,23 @@
     // Clear history button
     on($('#clearHistoryBtn'), 'click', clearSearchHistory);
 
-    on($('#mobileMenuBtn'), 'click', () => $('#navMenu')?.classList.toggle('active'));
+    on($('#mobileMenuBtn'), 'click', () => {
+      const menu = $('#navMenu');
+      const overlay = $('#overlay');
+      if (!menu) return;
+      const willOpen = !menu.classList.contains('active');
+      menu.classList.toggle('active');
+      document.body.classList.toggle('nav-open', willOpen);
+      if (overlay) overlay.classList.toggle('active', willOpen);
+    });
+    // Close mobile nav when clicking overlay
+    on($('#overlay'), 'click', () => {
+      const menu = $('#navMenu');
+      if (menu?.classList.contains('active')) {
+        menu.classList.remove('active');
+        document.body.classList.remove('nav-open');
+      }
+    });
   }
 
   // Hero slider
