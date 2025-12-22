@@ -1308,7 +1308,7 @@
     receipt += `TOTAL: $${subtotal.toFixed(2)}\n`;
     receipt += `Items: ${count}\n`;
     receipt += '\nThank you for your order!\n';
-    receipt += 'Email: davidyagudayev2018@gmail.com\n';
+    receipt += 'Email: iyjewlz7@gmail.com\n';
     receipt += 'Phone: 929-648-0535\n';
 
     const element = document.createElement('a');
