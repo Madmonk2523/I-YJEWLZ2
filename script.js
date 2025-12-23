@@ -760,36 +760,45 @@
     });
 
     on($('#mobileMenuBtn'), 'click', (e) => {
+      e.preventDefault();
       e.stopPropagation();
       const menu = $('#navMenu');
-      const overlay = $('#overlay');
       if (!menu) return;
-      const willOpen = !menu.classList.contains('active');
-      menu.classList.toggle('active');
-      document.body.classList.toggle('nav-open', willOpen);
-      if (overlay) overlay.classList.toggle('active', willOpen);
+      
+      const isActive = menu.classList.contains('active');
+      if (isActive) {
+        menu.classList.remove('active');
+        document.body.classList.remove('nav-open');
+      } else {
+        menu.classList.add('active');
+        document.body.classList.add('nav-open');
+      }
     });
     
     // Close mobile nav when clicking a link
     $$('#navMenu a', document).forEach(link => {
-      on(link, 'click', () => {
+      on(link, 'click', (e) => {
+        e.stopPropagation();
         const menu = $('#navMenu');
-        const overlay = $('#overlay');
-        if (menu?.classList.contains('active')) {
+        if (menu && menu.classList.contains('active')) {
           menu.classList.remove('active');
           document.body.classList.remove('nav-open');
-          if (overlay) overlay.classList.remove('active');
         }
       });
     });
     
-    // Close mobile nav when clicking overlay
-    on($('#overlay'), 'click', () => {
+    // Close mobile nav when clicking on body (outside menu)
+    on(document, 'click', () => {
       const menu = $('#navMenu');
-      if (menu?.classList.contains('active')) {
+      if (menu && menu.classList.contains('active')) {
         menu.classList.remove('active');
         document.body.classList.remove('nav-open');
       }
+    });
+    
+    // Stop propagation on menu itself so it doesn't close
+    on($('#navMenu'), 'click', (e) => {
+      e.stopPropagation();
     });
   }
 
