@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart - I&Y JEWLZ</title>
+    <title>Shop - I&Y JEWLZ</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -44,35 +44,47 @@
                     </ul>
                     
                     <div class="nav-icons">
+                        <button class="icon-btn search-btn" id="searchBtn">
+                            <i class="fas fa-search"></i>
+                        </button>
                     </div>
                 </div>
             </div>
         </nav>
+        
+        <!-- Search Bar -->
+        <div class="search-overlay" id="searchOverlay">
+            <div class="search-container">
+                <input type="text" placeholder="Search for jewelry..." id="searchInput">
+                <button class="search-close-btn" id="searchCloseBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
     </header>
 
     <!-- Page Header -->
     <section class="page-header">
         <div class="container">
-            <h1>Shopping Cart</h1>
+            <h1>Shop — Coming Soon</h1>
             <div class="breadcrumb">
                 <a href="index.html">Home</a>
                 <span>/</span>
-                <span>Cart</span>
+                <span>Shop</span>
             </div>
         </div>
     </section>
 
-    <!-- Cart Section -->
-    <section class="cart-section">
-        <div class="container" style="text-align:center;">
-            <div class="section-header">
-                <h2>Shopping on Shopify</h2>
-                <p>All products, cart, and checkout are handled on our Shopify store.</p>
+    <!-- Shop Section -->
+    <section class="shop-section">
+        <div class="container">
+            <div class="coming-soon-banner">
+                <div style="font-size: 64px;">💎</div>
+                <h2>Shop & Categories — Coming Soon</h2>
+                <p>We're preparing a beautiful collection. Please check back later.</p>
             </div>
-            <a href="shop-now.html" class="btn btn-primary btn-large">Visit Our Shopify Store</a>
         </div>
     </section>
-
 
     <!-- Footer -->
     <footer class="footer">
@@ -134,6 +146,27 @@
             </div>
         </div>
     </footer>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button class="cart-close-btn" id="cartCloseBtn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will be loaded here -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">$0.00</span>
+            </div>
+            <a href="cart.html" class="btn btn-primary btn-block">View Cart</a>
+            <button class="btn btn-outline btn-block">Checkout</button>
+        </div>
+    </div>
 
 
 

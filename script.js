@@ -565,13 +565,9 @@
 
   // Header interactions
   function initHeader() {
-    on($('#cartBtn'), 'click', openCartSidebar);
-    on($('#cartCloseBtn'), 'click', closeCartSidebar);
-    on($('#overlay'), 'click', () => {
-      closeCartSidebar();
-    });
+    // Cart and search disabled
 
-    // Enhanced Search System
+    // Enhanced Search System - DISABLED
     const searchOverlay = $('#searchOverlay');
     const searchInput = $('#searchInput');
     const searchClearBtn = $('#searchClearBtn');
@@ -726,109 +722,45 @@
       window.location.href = 'shop-now.html';
     }
     
-    // Open search overlay
+    // Open search overlay - DISABLED
     on($('#searchBtn'), 'click', () => {
-      searchOverlay?.classList.add('active');
-      searchInput?.focus();
-      
-      // Show history if input is empty
-      if (!searchInput.value) {
-        renderSearchHistory();
-        searchSuggestions.style.display = 'none';
-      }
+      // Search disabled
     });
     
-    // Close search overlay
+    // Close search overlay - DISABLED
     on($('#searchCloseBtn'), 'click', () => {
-      searchOverlay?.classList.remove('active');
-      searchSuggestions.style.display = 'none';
-      searchHistory.style.display = 'none';
+      // Search disabled
     });
     
-    // Close on escape key
+    // Close on escape key - DISABLED
     on(document, 'keydown', (e) => {
-      if (e.key === 'Escape' && searchOverlay?.classList.contains('active')) {
-        searchOverlay.classList.remove('active');
-        searchSuggestions.style.display = 'none';
-        searchHistory.style.display = 'none';
-      }
+      // Search disabled
     });
     
-    // Clear search input
+    // Clear search input - DISABLED
     on(searchClearBtn, 'click', () => {
-      searchInput.value = '';
-      searchClearBtn.style.display = 'none';
-      searchSuggestions.style.display = 'none';
-      renderSearchHistory();
-      searchInput.focus();
+      // Search disabled
     });
     
-    // Search input events (debounced + keyboard navigation)
-    let searchDebounceTimer = null;
-    let activeSuggestionIndex = -1;
-    function updateActiveSuggestion(listEl, idx) {
-      const items = $$('.suggestion-item', listEl);
-      items.forEach((el, i) => el.classList.toggle('active', i === idx));
-    }
+    // Search input events - DISABLED
     on(searchInput, 'input', () => {
-      const query = searchInput.value.trim();
-      searchClearBtn.style.display = query ? 'flex' : 'none';
-      if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
-      searchDebounceTimer = setTimeout(() => {
-        if (query.length >= 2) {
-          const suggestions = getSearchSuggestions(query);
-          if (!suggestions.length) {
-            const list = searchSuggestions.querySelector('.suggestions-list');
-            list.innerHTML = `<div class="no-results"><i class="fas fa-search"></i><div>No matches found</div></div>`;
-            searchSuggestions.style.display = 'block';
-            searchHistory.style.display = 'none';
-          } else {
-            renderSuggestions(suggestions);
-            searchHistory.style.display = 'none';
-          }
-          activeSuggestionIndex = -1;
-        } else if (query.length === 0) {
-          searchSuggestions.style.display = 'none';
-          renderSearchHistory();
-        } else {
-          searchSuggestions.style.display = 'none';
-          searchHistory.style.display = 'none';
-        }
-      }, 150);
+      // Search disabled
     });
     on(searchInput, 'keydown', (e) => {
-      const list = searchSuggestions.querySelector('.suggestions-list');
-      const items = $$('.suggestion-item', list);
-      if (!items.length || searchSuggestions.style.display === 'none') return;
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        activeSuggestionIndex = Math.min(items.length - 1, activeSuggestionIndex + 1);
-        updateActiveSuggestion(list, activeSuggestionIndex);
-      } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        activeSuggestionIndex = Math.max(0, activeSuggestionIndex - 1);
-        updateActiveSuggestion(list, activeSuggestionIndex);
-      } else if (e.key === 'Enter' && activeSuggestionIndex >= 0) {
-        e.preventDefault();
-        const chosen = items[activeSuggestionIndex];
-        const q = chosen?.dataset.query;
-        if (q) performSearch(q);
-      }
+      // Search disabled
     });
     
     on(searchInput, 'keypress', (e) => {
-      if (e.key === 'Enter') {
-        const query = searchInput.value.trim();
-        if (query) {
-          performSearch(query);
-        }
-      }
+      // Search disabled
     });
     
-    // Clear history button
-    on($('#clearHistoryBtn'), 'click', clearSearchHistory);
+    // Clear history button - DISABLED
+    on($('#clearHistoryBtn'), 'click', () => {
+      // Search disabled
+    });
 
-    on($('#mobileMenuBtn'), 'click', () => {
+    on($('#mobileMenuBtn'), 'click', (e) => {
+      e.stopPropagation();
       const menu = $('#navMenu');
       const overlay = $('#overlay');
       if (!menu) return;
@@ -837,6 +769,20 @@
       document.body.classList.toggle('nav-open', willOpen);
       if (overlay) overlay.classList.toggle('active', willOpen);
     });
+    
+    // Close mobile nav when clicking a link
+    $$('#navMenu a', document).forEach(link => {
+      on(link, 'click', () => {
+        const menu = $('#navMenu');
+        const overlay = $('#overlay');
+        if (menu?.classList.contains('active')) {
+          menu.classList.remove('active');
+          document.body.classList.remove('nav-open');
+          if (overlay) overlay.classList.remove('active');
+        }
+      });
+    });
+    
     // Close mobile nav when clicking overlay
     on($('#overlay'), 'click', () => {
       const menu = $('#navMenu');
