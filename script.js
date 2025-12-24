@@ -910,26 +910,31 @@
       observer.observe(el);
     });
 
-    // Parallax effect for emojis
+    // Parallax effect for emojis - throttle to reduce lag
     let ticking = false;
+    let lastScrollTime = 0;
     window.addEventListener('scroll', () => {
+      const now = Date.now();
+      if (now - lastScrollTime < 100) return; // Only update every 100ms
+      lastScrollTime = now;
+
       if (!ticking) {
         window.requestAnimationFrame(() => {
           const scrolled = window.pageYOffset;
           const heroEmojis = $$('.hero-emoji');
           heroEmojis.forEach(emoji => {
             if (emoji.offsetParent) {
-              emoji.style.transform = `translate3d(0, ${scrolled * 0.2}px, 0)`;
+              emoji.style.transform = `translate3d(0, ${scrolled * 0.1}px, 0)`;
             }
           });
           
-          // Parallax for category emojis (throttled to every other frame)
-          if (Math.random() > 0.5) {
+          // Parallax for category emojis - only on desktop/larger screens
+          if (window.innerWidth > 768) {
             $$('.category-emoji').forEach((emoji) => {
               const rect = emoji.getBoundingClientRect();
               if (rect.top < window.innerHeight && rect.bottom > 0) {
-                const offset = (window.innerHeight - rect.top) * 0.05;
-                emoji.style.transform = `translate3d(0, ${offset}px, 0) rotate(${offset * 0.2}deg)`;
+                const offset = (window.innerHeight - rect.top) * 0.03;
+                emoji.style.transform = `translate3d(0, ${offset}px, 0) rotate(${offset * 0.1}deg)`;
               }
             });
           }
@@ -938,7 +943,7 @@
         });
         ticking = true;
       }
-    });
+    }, { passive: true });
   }
 
   // Smooth scroll for anchor links
