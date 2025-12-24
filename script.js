@@ -759,51 +759,48 @@
       // Search disabled
     });
 
-    on($('#mobileMenuBtn'), 'click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const menu = $('#navMenu');
-      if (!menu) return;
-      
-      const isActive = menu.classList.contains('active');
-      if (isActive) {
-        menu.classList.remove('active');
-        document.body.classList.remove('nav-open');
-      } else {
-        menu.classList.add('active');
-        document.body.classList.add('nav-open');
-      }
-    });
-    
-    // Close mobile nav when clicking a link
-    $$('#navMenu a', document).forEach(link => {
-      on(link, 'click', (e) => {
-        e.stopPropagation();
-        const menu = $('#navMenu');
-        if (menu && menu.classList.contains('active')) {
-          menu.classList.remove('active');
-          document.body.classList.remove('nav-open');
-        }
-      });
-    });
-    
-    // Close mobile nav when clicking outside the menu or toggle
-    on(document, 'click', (e) => {
-      const menu = $('#navMenu');
-      const toggle = $('#mobileMenuBtn');
-      const clickedInsideMenu = menu && menu.contains(e.target);
-      const clickedToggle = toggle && toggle.contains(e.target);
+    const mobileMenuBtn = $('#mobileMenuBtn');
+    const navMenu = $('#navMenu');
 
-      if (!clickedInsideMenu && !clickedToggle && menu && menu.classList.contains('active')) {
-        menu.classList.remove('active');
+    if (mobileMenuBtn && navMenu) {
+      const openMenu = () => {
+        navMenu.classList.add('active');
+        document.body.classList.add('nav-open');
+        mobileMenuBtn.setAttribute('aria-expanded', 'true');
+      };
+
+      const closeMenu = () => {
+        navMenu.classList.remove('active');
         document.body.classList.remove('nav-open');
-      }
-    });
-    
-    // Stop propagation on menu itself so it doesn't close
-    on($('#navMenu'), 'click', (e) => {
-      e.stopPropagation();
-    });
+        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+      };
+
+      on(mobileMenuBtn, 'click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const isActive = navMenu.classList.contains('active');
+        isActive ? closeMenu() : openMenu();
+      });
+
+      // Close when a nav link is tapped
+      $$('#navMenu a', document).forEach(link => {
+        on(link, 'click', () => {
+          if (navMenu.classList.contains('active')) closeMenu();
+        });
+      });
+
+      // Close on outside click
+      on(document, 'click', (e) => {
+        const clickedMenu = navMenu.contains(e.target);
+        const clickedToggle = mobileMenuBtn.contains(e.target);
+        if (!clickedMenu && !clickedToggle && navMenu.classList.contains('active')) closeMenu();
+      });
+
+      // Close on Escape
+      on(document, 'keydown', (e) => {
+        if (e.key === 'Escape' && navMenu.classList.contains('active')) closeMenu();
+      });
+    }
   }
 
   // Hero slider
@@ -928,14 +925,15 @@
           
           // Parallax for category emojis (throttled to every other frame)
           if (Math.random() > 0.5) {
-            $$('.category-emoji').forEach((emoji, idx) => {
+            $$('.category-emoji').forEach((emoji) => {
               const rect = emoji.getBoundingClientRect();
               if (rect.top < window.innerHeight && rect.bottom > 0) {
                 const offset = (window.innerHeight - rect.top) * 0.05;
                 emoji.style.transform = `translate3d(0, ${offset}px, 0) rotate(${offset * 0.2}deg)`;
-            }
-          });
-          
+              }
+            });
+          }
+
           ticking = false;
         });
         ticking = true;
@@ -1035,11 +1033,14 @@
       priceRange.addEventListener('input', (e) => {
         const maxPrice = parseInt(e.target.value);
         document.getElementById('maxPrice').textContent = '$' + maxPrice.toLocaleString();
-        filterProducts();
+        if (typeof window.filterProducts === 'function') {
+          window.filterProducts();
+        }
       });
     }
 
     // Wishlist heart favorites functionality (simplified)
+    const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
     addToCartButtons.forEach(btn => {
       btn.addEventListener('mouseenter', () => {
         btn.style.transform = 'scale(1.05)';
