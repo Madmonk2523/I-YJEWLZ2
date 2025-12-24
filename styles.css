@@ -35,7 +35,6 @@ body {
    background: linear-gradient(135deg, #e6f2ff 0%, #ADD8E6 50%, #c9e4f5 100%);
    background-attachment: fixed;
    background-size: 200% 200%;
-   animation: gradientShift 15s ease infinite;
 }
 
 /* Scroll reveal animations */
@@ -1081,6 +1080,7 @@ body.nav-open { overflow: hidden; }
    align-items: center; 
    justify-content: center;
    cursor: pointer;
+   content-visibility: auto;
 }
 .product-image::before {
    content: '';
