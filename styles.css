@@ -168,6 +168,14 @@ img {
    text-rendering: optimizeLegibility;
 }
 
+.top-bar {
+   display: none;
+   background: var(--secondary-color);
+   color: var(--white);
+   padding: 8px 0;
+   font-size: 14px;
+}
+
 .top-bar-content {
    display: flex;
    justify-content: space-between;
