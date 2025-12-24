@@ -761,6 +761,14 @@
 
     const mobileMenuBtn = $('#mobileMenuBtn');
     const navMenu = $('#navMenu');
+    const logoBrand = $('.logo-brand');
+
+    // Prevent logo click navigation
+    if (logoBrand) {
+      on(logoBrand, 'click', (e) => {
+        e.preventDefault();
+      });
+    }
 
     if (mobileMenuBtn && navMenu) {
       const openMenu = () => {
