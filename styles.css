@@ -276,12 +276,13 @@ img {
       gap: 0;
       z-index: 12000;
       max-height: 0;
-      overflow: hidden;
+      min-height: 0;
+      overflow: clip;
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
-      padding: 0;
-      margin: 0;
+      padding: 0 !important;
+      margin: 0 !important;
       transition: max-height 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
    }
@@ -293,6 +294,7 @@ img {
       visibility: visible;
       pointer-events: auto;
    }
+}
 
 .nav-menu a {
    color: var(--secondary-color);
@@ -1951,20 +1953,29 @@ body.nav-open { overflow: hidden; }
    }
    .nav-menu li {
       margin: 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: none;
    }
    .nav-menu li:last-child {
       border-bottom: none;
    }
+   .nav-menu.active li {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+   }
+   .nav-menu.active li:last-child {
+      border-bottom: none;
+   }
    .nav-menu a {
       display: block;
-      padding: 16px 20px;
+      padding: 0;
       font-size: 17px;
       font-weight: 600;
       color: var(--secondary-color);
       border-radius: 0;
       margin: 0;
       transition: var(--transition);
+   }
+   .nav-menu.active a {
+      padding: 16px 20px;
    }
    .nav-menu a:hover,
    .nav-menu a.active {
