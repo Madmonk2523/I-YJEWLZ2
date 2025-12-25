@@ -2325,7 +2325,7 @@ body.nav-open { overflow: hidden; }
    }
    /* Allow full dropdown expansion on mobile when opened */
    .nav-dropdown.open .dropdown-menu {
-      max-height: none;
+      max-height: 500px !important;
       overflow: visible;
       padding: 8px 0;
       position: relative;
