@@ -759,8 +759,10 @@
       // Search disabled
     });
 
-    const mobileMenuBtn = $('#mobileMenuBtn');
-    const navMenu = $('#navMenu');
+    const menuToggle = $('#menuToggle');
+    const mobileDrawer = $('#mobileDrawer');
+    const drawerOverlay = $('#drawerOverlay');
+    const drawerClose = $('#drawerClose');
     const logoBrand = $('.logo-brand');
 
     // Prevent logo click navigation
@@ -770,85 +772,44 @@
       });
     }
 
-    if (mobileMenuBtn && navMenu) {
-      const openMenu = () => {
-        navMenu.classList.add('active');
-        document.body.classList.add('nav-open');
-        mobileMenuBtn.setAttribute('aria-expanded', 'true');
-        // Dynamically position mobile nav below the navbar and set max height
-        const navbar = document.querySelector('.navbar');
-        const topOffset = navbar ? navbar.offsetHeight : 80;
-        navMenu.style.top = `${topOffset}px`;
-        navMenu.style.maxHeight = `calc(100vh - ${topOffset}px)`;
-      };
+    // New Mobile Drawer behavior
+    const openDrawer = () => {
+      if (!mobileDrawer) return;
+      mobileDrawer.classList.add('open');
+      document.body.classList.add('nav-open');
+      if (menuToggle) menuToggle.setAttribute('aria-expanded', 'true');
+      // focus management: move focus to close button if available
+      if (drawerClose) drawerClose.focus?.();
+    };
 
-      const closeMenu = () => {
-        navMenu.classList.remove('active');
-        navMenu.classList.remove('dropdown-open');
-        document.body.classList.remove('nav-open');
-        mobileMenuBtn.setAttribute('aria-expanded', 'false');
-        navMenu.style.top = '';
-        navMenu.style.maxHeight = '';
-      };
+    const closeDrawer = () => {
+      if (!mobileDrawer) return;
+      mobileDrawer.classList.remove('open');
+      document.body.classList.remove('nav-open');
+      if (menuToggle) menuToggle.setAttribute('aria-expanded', 'false');
+    };
 
-      on(mobileMenuBtn, 'click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const isActive = navMenu.classList.contains('active');
-        isActive ? closeMenu() : openMenu();
-      });
-
-      // Close when a nav link is tapped
-      $$('#navMenu a', document).forEach(link => {
-        on(link, 'click', () => {
-          if (navMenu.classList.contains('active')) closeMenu();
-        });
-      });
-
-      // Close on outside click
-      on(document, 'click', (e) => {
-        const clickedMenu = navMenu.contains(e.target);
-        const clickedToggle = mobileMenuBtn.contains(e.target);
-        if (!clickedMenu && !clickedToggle && navMenu.classList.contains('active')) closeMenu();
-      });
-
-      // Close on Escape
-      on(document, 'keydown', (e) => {
-        if (e.key === 'Escape' && navMenu.classList.contains('active')) closeMenu();
-      });
+    if (menuToggle && mobileDrawer) {
+      on(menuToggle, 'click', (e) => { e.preventDefault(); openDrawer(); });
     }
+    if (drawerOverlay) on(drawerOverlay, 'click', closeDrawer);
+    if (drawerClose) on(drawerClose, 'click', closeDrawer);
+    on(document, 'keydown', (e) => { if (e.key === 'Escape' && mobileDrawer?.classList.contains('open')) closeDrawer(); });
 
-    // Recompute nav position on resize/orientation change
-    on(window, 'resize', () => {
-      if (navMenu && navMenu.classList.contains('active')) {
-        const navbar = document.querySelector('.navbar');
-        const topOffset = navbar ? navbar.offsetHeight : 80;
-        navMenu.style.top = `${topOffset}px`;
-        navMenu.style.maxHeight = `calc(100vh - ${topOffset}px)`;
-      }
-    });
-
-    // Mobile categories dropdown toggle to prevent clipping
-    if (window.innerWidth <= 768) {
-      const dropdownLinks = $$('.nav-dropdown > a');
-      dropdownLinks.forEach(link => {
-        on(link, 'click', (e) => {
-          e.preventDefault();
-          const parent = link.parentElement;
-          const isOpen = parent.classList.contains('open');
-          // Close other dropdowns
-          $$('.nav-dropdown').forEach(dd => dd.classList.remove('open'));
-          // Toggle current (inline expansion, no overlay)
-          if (!isOpen) parent.classList.add('open');
-        });
-      });
-      // Close dropdowns when clicking outside
-      on(document, 'click', (e) => {
-        if (!e.target.closest('.nav-dropdown')) {
-          $$('.nav-dropdown').forEach(dd => dd.classList.remove('open'));
+    // Drawer accordion for categories
+    $$('.accordion-toggle', mobileDrawer || document).forEach(btn => {
+      on(btn, 'click', (e) => {
+        e.preventDefault();
+        const li = btn.closest('.accordion');
+        const isOpen = li.classList.contains('open');
+        $$('.accordion', mobileDrawer || document).forEach(x => x.classList.remove('open'));
+        $$('.accordion-toggle', mobileDrawer || document).forEach(x => x.setAttribute('aria-expanded', 'false'));
+        if (!isOpen) {
+          li.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
         }
       });
-    }
+    });
   }
 
   // Hero slider
