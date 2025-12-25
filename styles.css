@@ -904,6 +904,8 @@ body.nav-open { overflow: hidden; }
 .accordion.open .accordion-panel { max-height: 400px; }
 .accordion .accordion-panel a { padding: 12px 14px; display: block; font-weight: 500; }
 
+body.nav-open { overflow: hidden; }
+
 /* Responsive: show drawer toggle and hide desktop menu on small screens */
 @media (max-width: 768px) {
    .menu-toggle { display: inline-flex; }
