@@ -950,22 +950,28 @@ body.nav-open { overflow: hidden; }
       align-items: center;
       justify-content: space-between;
    }
-   .nav-dropdown .dropdown-menu {
-      position: static !important;
-      display: none !important;
-      opacity: 1 !important;
-      visibility: visible !important;
-      transform: none !important;
-      box-shadow: none !important;
-      background: rgba(0, 0, 0, 0.15) !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      border-radius: 0 !important;
+   .dropdown-menu {
+      position: static;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+      transform: none;
+      box-shadow: none;
+      background: rgba(0, 0, 0, 0.15);
+      margin: 0;
+      padding: 0;
+      border-radius: 0;
+      transition: max-height 0.3s ease, opacity 0.2s ease, padding 0.3s ease;
    }
+   .nav-dropdown:hover .dropdown-menu,
    .nav-dropdown.active .dropdown-menu {
-      display: block !important;
+      max-height: 500px;
+      opacity: 1;
+      visibility: visible;
+      padding: 5px 0;
    }
-   .nav-dropdown .dropdown-menu a {
+   .dropdown-menu a {
       padding: 10px 20px 10px 35px !important;
    }
    .drawer { display: none !important; }
