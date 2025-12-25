@@ -809,6 +809,28 @@
         if (e.key === 'Escape' && navMenu.classList.contains('active')) closeMenu();
       });
     }
+
+    // Mobile categories dropdown toggle to prevent clipping
+    if (window.innerWidth <= 768) {
+      const dropdownLinks = $$('.nav-dropdown > a');
+      dropdownLinks.forEach(link => {
+        on(link, 'click', (e) => {
+          e.preventDefault();
+          const parent = link.parentElement;
+          const isOpen = parent.classList.contains('open');
+          // Close other dropdowns
+          $$('.nav-dropdown').forEach(dd => dd.classList.remove('open'));
+          // Toggle current
+          if (!isOpen) parent.classList.add('open');
+        });
+      });
+      // Close dropdowns when clicking outside
+      on(document, 'click', (e) => {
+        if (!e.target.closest('.nav-dropdown')) {
+          $$('.nav-dropdown').forEach(dd => dd.classList.remove('open'));
+        }
+      });
+    }
   }
 
   // Hero slider
@@ -928,6 +950,31 @@
     ];
 
     const categories = ['Watches', 'Necklaces', 'Earrings', 'Bracelets'];
+
+    // Mobile nav search input: bridge to overlay search
+    const mobileSearchInput = $('#mobileSearchInput');
+    if (mobileSearchInput) {
+      on(mobileSearchInput, 'focus', () => {
+        searchOverlay.classList.add('active');
+        searchInput.value = mobileSearchInput.value;
+        searchInput.focus();
+        const q = (searchInput.value || '').trim().toLowerCase();
+        if (!q) renderDefaultSuggestions(); else performSearch(q);
+      });
+      on(mobileSearchInput, 'input', (e) => {
+        searchOverlay.classList.add('active');
+        const q = (e.target.value || '').trim().toLowerCase();
+        searchInput.value = e.target.value;
+        if (!q) renderDefaultSuggestions(); else performSearch(q);
+      });
+      on(mobileSearchInput, 'keydown', (e) => {
+        if (e.key === 'Enter') {
+          searchOverlay.classList.add('active');
+          const q = (mobileSearchInput.value || '').trim().toLowerCase();
+          if (!q) renderDefaultSuggestions(); else performSearch(q);
+        }
+      });
+    }
 
     // Open search modal
     on(searchBtn, 'click', () => {
