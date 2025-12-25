@@ -16,9 +16,8 @@
     { id: 7, name: 'Vintage Sapphire Ring', category: 'rings', material: 'gold', collection: 'vintage', price: 1499, originalPrice: 1699, rating: 4.4, reviews: 22, image: 'images/product7.jpg' },
     { id: 8, name: 'Diamond Stud Earrings', category: 'earrings', material: 'diamond', collection: 'luxury', price: 1199, originalPrice: 1399, rating: 4.8, reviews: 96, image: 'images/product8.jpg' },
     { id: 9, name: 'Men\'s Chrono Watch', category: 'watches', material: 'steel', collection: 'modern', price: 899, originalPrice: 999, rating: 4.2, reviews: 45, image: 'images/product9.jpg' },
-    { id: 10, name: 'Emerald Bracelet', category: 'bracelets', material: 'gold', collection: 'luxury', price: 2299, originalPrice: 2599, rating: 4.6, reviews: 28, image: 'images/product10.jpg' },
-    { id: 11, name: 'Minimal Silver Necklace', category: 'necklaces', material: 'silver', collection: 'modern', price: 159, originalPrice: 199, rating: 4.1, reviews: 12, image: 'images/product11.jpg' },
-    { id: 12, name: 'Ruby Heart Pendant', category: 'necklaces', material: 'gold', collection: 'classic', price: 629, originalPrice: 699, rating: 4.5, reviews: 31, image: 'images/product12.jpg' },
+    { id: 10, name: 'Minimal Silver Necklace', category: 'necklaces', material: 'silver', collection: 'modern', price: 159, originalPrice: 199, rating: 4.1, reviews: 12, image: 'images/product11.jpg' },
+    { id: 11, name: 'Ruby Heart Pendant', category: 'necklaces', material: 'gold', collection: 'classic', price: 629, originalPrice: 699, rating: 4.5, reviews: 31, image: 'images/product12.jpg' },
   ];
 
   // LocalStorage cart helpers
