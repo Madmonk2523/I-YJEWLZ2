@@ -221,6 +221,24 @@ img {
    padding: 0 20px;
 }
 
+@media (min-width: 769px) {
+   .nav-content {
+      justify-content: center;
+   }
+   .nav-menu {
+      flex: 1;
+      justify-content: center;
+   }
+   .nav-icons {
+      position: absolute;
+      right: 20px;
+   }
+   .logo-brand {
+      position: absolute;
+      left: 20px;
+   }
+}
+
 .logo-small {
    font-size: 24px;
    color: var(--primary-color);
