@@ -1071,7 +1071,7 @@ body.nav-open { overflow: hidden; }
 .hero-landing {
    min-height: 100vh;
    height: auto;
-   background-image: url('images/backround.webp');
+   background-image: url('images/backround.jpeg');
    background-size: cover;
    background-position: center center;
    background-repeat: no-repeat;
