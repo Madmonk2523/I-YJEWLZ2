@@ -2266,6 +2266,8 @@ body.nav-open { overflow: hidden; }
       top: 80px;
       left: 0;
       right: 0;
+      max-height: calc(100vh - 80px);
+      overflow-y: auto;
    }
    .nav-menu.active a {
       padding: 16px 20px;
