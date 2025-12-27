@@ -608,8 +608,9 @@
         const nameMatch = fuzzyMatch(product.name, query);
         const categoryMatch = fuzzyMatch(product.category, query);
         const materialMatch = fuzzyMatch(product.material, query);
+        const collectionMatch = fuzzyMatch(product.collection, query);
         
-        const maxScore = Math.max(nameMatch, categoryMatch, materialMatch);
+        const maxScore = Math.max(nameMatch, categoryMatch, materialMatch, collectionMatch);
         if (maxScore > 0) {
           suggestions.push({
             name: product.name,
@@ -741,13 +742,64 @@
       });
     }
     
+    // Display search results
+    function displaySearchResults(query) {
+      const resultsContainer = searchInput?.closest('.search-modal')?.querySelector('.search-results');
+      const resultsListDiv = resultsContainer?.querySelector('.results-list');
+      const searchEmpty = searchInput?.closest('.search-modal')?.querySelector('.search-empty');
+      
+      if (!resultsContainer || !resultsListDiv) return;
+      
+      const results = [];
+      const lowerQuery = query.toLowerCase();
+      
+      // Search across all product fields
+      PRODUCTS.forEach(product => {
+        const nameMatch = product.name.toLowerCase().includes(lowerQuery);
+        const categoryMatch = product.category.toLowerCase().includes(lowerQuery);
+        const materialMatch = product.material.toLowerCase().includes(lowerQuery);
+        const collectionMatch = product.collection.toLowerCase().includes(lowerQuery);
+        
+        if (nameMatch || categoryMatch || materialMatch || collectionMatch) {
+          results.push(product);
+        }
+      });
+      
+      // Display results
+      if (results.length === 0) {
+        resultsContainer.style.display = 'none';
+        if (searchEmpty) searchEmpty.style.display = 'block';
+      } else {
+        if (searchEmpty) searchEmpty.style.display = 'none';
+        resultsListDiv.innerHTML = results.map(product => `
+          <div class="search-result-item" style="padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; transition: all 0.2s;">
+            <div style="display: flex; gap: 15px; align-items: flex-start;">
+              <img src="${product.image}" alt="${product.name}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+              <div style="flex: 1;">
+                <h4 style="margin: 0 0 5px 0; font-size: 0.95rem; font-weight: 600; color: #1a1a2e;">${product.name}</h4>
+                <p style="margin: 0 0 8px 0; font-size: 0.85rem; color: #888;">${CATEGORY_EMOJI[product.category] || ''} ${product.category} • ${product.material}</p>
+                <p style="margin: 0; font-size: 0.9rem; font-weight: 700; color: #d4af37;">$${product.price.toLocaleString()}</p>
+              </div>
+            </div>
+          </div>
+        `).join('');
+        resultsContainer.style.display = 'block';
+        
+        // Add click handlers to show product details
+        $$('.search-result-item', resultsListDiv).forEach((item, idx) => {
+          on(item, 'click', () => {
+            searchOverlay?.classList.remove('active');
+            window.location.href = 'product-details.html?id=' + results[idx].id;
+          });
+        });
+      }
+    }
+    
     // Perform search
     function performSearch(query) {
       if (!query) return;
       saveToHistory(query);
-      searchOverlay?.classList.remove('active');
-      // Redirect users to Shopify landing page instead of product search
-      window.location.href = 'shop-now.html';
+      displaySearchResults(query);
     }
     
     // Open search overlay
@@ -776,12 +828,13 @@
       renderSearchHistory();
     });
     
-    // Search input events - Real-time suggestions
+    // Search input events - Real-time suggestions and results
     on(searchInput, 'input', () => {
       const query = searchInput.value.trim();
       if (query.length >= 2) {
         const suggestions = getSearchSuggestions(query);
         renderSuggestions(suggestions);
+        displaySearchResults(query);
       } else {
         renderSearchHistory();
       }
